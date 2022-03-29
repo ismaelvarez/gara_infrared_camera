@@ -26,13 +26,17 @@
   <!-- start image_proc to remove lens distortion from the IR-image. The undistorted image is advertised under topic "/optris/image_rect_color" -->
   <node name="image_proc" pkg="image_proc" type="image_proc"/>
   
-  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="1 0 0 0 0 0 1 parent thermal_image_view  10"/>
+  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0.2545 0.021 0.29 0 -0.1048 0.01 1 robot_base_footprint thermal_image_view  10"/>
   
-  <node name="web_server" pkg="web_video_server" type="web_video_server"/>
+  <node name="web_server" pkg="web_video_server" type="web_video_server">
+    <param name="port"  type="int" value="8090"/>
+  </node>
   
-  <node name="thermal_processing" pkg="thermal_processing" type="thermal_processor.py" output="screen">
+  <node name="thermal_processing" pkg="thermal_processing" type="thermal_processor.py">
     <!-- Set configuration file of your camera here! -->
-    <param name="threshold"      type="double" value="30000"/>
+    <param name="mode"  type="str" value="point"/>
+    <param name="max_threshold"  type="int" value="200"/>
+    <param name="min_threshold"  type="int" value="40"/>
   </node>
 </group>
 </launch>
